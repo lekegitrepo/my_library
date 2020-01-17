@@ -1,4 +1,7 @@
-let myLibrary = [];
+let myLibrary = JSON.parse(window.localStorage.getItem("library"));
+if (myLibrary == null) {
+  myLibrary = [];
+}
 
 function Book(title, author, pages, isbn, image) {
   // the constructor...
@@ -38,8 +41,8 @@ function displayBook(book, index) {
   <div class="card-text">${book.isbn}</div>
   <div>
   <div>
-   <button onclick="toggleStatus(this)">Not Read</button>
-   <button onclick="removeBook(this)" data-attributes = ${index} >Delete</button>
+   <button class='btn btn-primary btn-sm'>Not Read</button>
+   <button data-index= ${index} class='btn btn-danger btn-sm delete' >Delete</button>
   </div>
   </div>`;
   /*let row = document.createElement("div");
@@ -49,15 +52,35 @@ function displayBook(book, index) {
   listContainer.innerHTML += bookDetails;
 }
 
-document.getElementById("form").addEventListener("submit", e => {
+document.getElementById("add").addEventListener("click", e => {
   addBookToLibrary();
   e.preventDefault();
 });
 
 document.addEventListener("DOMContentLoaded", render());
 
-/*function removeBook(book) {
-  let bookToDelete = book.getAttribute("data-attributes");
+function removeBook(book) {
+  let bookToDelete = book.getAttribute("data-index");
+  bookToDelete.style.display = "none";
   myLibrary.splice(bookToDelete, 1);
+  updateLocalStorage(myLibrary);
   render();
-}*/
+}
+
+function updateLocalStorage(array) {
+  window.localStorage.setItem("library", JSON.stringify(array));
+}
+
+function deleteBook(el) {
+  if (el.classList.contains("delete")) {
+    el.parentElement.parentElement.parentElement.parentElement.remove();
+    const book = el.getAttribute("data-index");
+    myLibrary.splice(book, 1);
+    updateLocalStorage(myLibrary);
+    render();
+  }
+}
+
+document.querySelector("#book-list").addEventListener("click", e => {
+  deleteBook(e.target);
+});
