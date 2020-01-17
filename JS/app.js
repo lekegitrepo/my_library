@@ -16,8 +16,8 @@ function addBookToLibrary() {
   const pages = document.getElementById("pages").value;
   const isbn = document.getElementById("isbn").value;
 
-  let img_link = document.getElementById('image').value;
-  img_link = (img_link == '') ? './images/book-image.png' : img_link;
+  let img_link = document.getElementById("image").value;
+  img_link = img_link == "" ? "./images/book-image.png" : img_link;
 
   myLibrary.push(new Book(title, author, pages, isbn, img_link));
   render();
@@ -42,6 +42,9 @@ function displayBook(book, index) {
    <button onclick="removeBook(this)" data-attributes = ${index} >Delete</button>
   </div>
   </div>`;
+  /*let row = document.createElement("div");
+  row.className = "row";
+  listContainer.appendChild(row);*/
 
   listContainer.innerHTML += bookDetails;
 }
