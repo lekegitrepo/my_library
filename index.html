@@ -26,7 +26,7 @@
     <main>
       <section class="mt-4">
         <h4 class="text-center">List of Books</h4>
-        <div class="book-list"></div>
+        <div id="book-list"></div>
 
         <!-- Button trigger modal -->
         <div class="mt-4 text-center">
@@ -64,44 +64,48 @@
                   <span aria-hidden="true">&times;</span>
                 </button>
               </div>
-              <div class="modal-body">
-                <form class="form">
+              <form id="form">
+                <div class="modal-body">
                   <div class="form-group">
                     <input
+                      id="title"
                       class="form-control form-control-lg my-3 title"
                       type="text"
                       placeholder="Book Title"
                     />
                     <input
+                      id="author"
                       class="form-control form-control-lg my-3 author"
                       type="text"
                       placeholder="Author"
                     />
                     <input
+                      id="pages"
                       class="form-control form-control-lg my-3 pages"
                       type="text"
                       placeholder="Number of Pages"
                     />
                     <input
+                      id="isbn"
                       class="form-control form-control-lg my-3 isbn"
                       type="text"
                       placeholder="ISBN"
                     />
                   </div>
-                </form>
-              </div>
-              <div class="modal-footer">
-                <button
-                  type="button"
-                  class="btn btn-secondary"
-                  data-dismiss="modal"
-                >
-                  Cancel
-                </button>
-                <button type="submit" class="btn btn-primary">
-                  Add
-                </button>
-              </div>
+                  <div class="modal-footer">
+                    <button
+                      type="button"
+                      class="btn btn-secondary"
+                      data-dismiss="modal"
+                    >
+                      Cancel
+                    </button>
+                    <button type="submit" class="btn btn-primary">
+                      Add
+                    </button>
+                  </div>
+                </div>
+              </form>
             </div>
           </div>
         </div>
