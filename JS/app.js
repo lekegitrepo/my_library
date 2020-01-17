@@ -1,6 +1,6 @@
 let myLibrary = [];
 
-function Book(title, author, pages, isbn, image = "") {
+function Book(title, author, pages, isbn, image) {
   // the constructor...
   this.title = title;
   this.author = author;
@@ -16,7 +16,10 @@ function addBookToLibrary() {
   const pages = document.getElementById("pages").value;
   const isbn = document.getElementById("isbn").value;
 
-  myLibrary.push(new Book(title, author, pages, isbn));
+  let img_link = document.getElementById('image').value;
+  img_link = (img_link == '') ? './images/book-image.png' : img_link;
+
+  myLibrary.push(new Book(title, author, pages, isbn, img_link));
   render();
 }
 
@@ -26,10 +29,14 @@ function render() {
 
 function displayBook(book, index) {
   const listContainer = document.getElementById("book-list");
-  const bookDetails = `<div><div>${book.title}</div>
-  <div>${book.author}</div>
-  <div>${book.pages}</div>
-  <div>${book.isbn}</div>
+  const bookDetails = `<div class="card col-md-4">
+  <img class="card-img-top" src="${book.image}" width="50px" height="80px" alt="Card image cap">
+  <div class="card-body">
+  <h5 class="card-title">${book.title}</h5>
+  <div class="card-text">${book.author}</div>
+  <div class="card-text">${book.pages}</div>
+  <div class="card-text">${book.isbn}</div>
+  <div>
   <div>
    <button onclick="toggleStatus(this)">Not Read</button>
    <button onclick="removeBook(this)" data-attributes = ${index} >Delete</button>
