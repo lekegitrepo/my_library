@@ -22,8 +22,16 @@ function addBookToLibrary() {
   let img_link = document.getElementById("image").value;
   img_link = img_link == "" ? "./images/book-image.png" : img_link;
 
-  myLibrary.push(new Book(title, author, pages, isbn, img_link));
-  render();
+  if (title === "" || author === "" || pages === "" || isbn === "") {
+    return;
+  } else {
+    let newBook = new Book(title, author, pages, isbn, img_link);
+    myLibrary.push(newBook);
+    //removeValue("form-control");
+    updateLocalStorage(myLibrary);
+    render();
+    document.getElementById("form").reset();
+  }
 }
 
 function render() {
@@ -31,44 +39,78 @@ function render() {
 }
 
 function displayBook(book, index) {
-  const listContainer = document.getElementById("book-list");
-  const bookDetails = `<div class="card col-md-4">
-  <img class="card-img-top" src="${book.image}" width="50px" height="80px" alt="Card image cap">
-  <div class="card-body">
-  <h5 class="card-title">${book.title}</h5>
-  <div class="card-text">${book.author}</div>
-  <div class="card-text">${book.pages}</div>
-  <div class="card-text">${book.isbn}</div>
-  <div>
-  <div>
-   <button class='btn btn-primary btn-sm'>Not Read</button>
-   <button data-index= ${index} class='btn btn-danger btn-sm delete' >Delete</button>
-  </div>
-  </div>`;
-  /*let row = document.createElement("div");
-  row.className = "row";
-  listContainer.appendChild(row);*/
+  const booksContainer = document.getElementById("book-list");
+  const divCard = document.createElement("div");
+  divCard.className = "card col-12 col-md-3 col-lg-4";
 
-  listContainer.innerHTML += bookDetails;
+  const cardImg = document.createElement("img");
+  cardImg.className = "card-img-top";
+  cardImg.src = book.image;
+  cardImg.style.width = "300";
+  cardImg.style.height = "200";
+  divCard.appendChild(cardImg);
+
+  const divCardBody = document.createElement("div");
+  divCardBody.className = "card-body";
+
+  const hCardTitle = document.createElement("h5");
+  hCardTitle.className = "card-title";
+  divCardBody.appendChild(hCardTitle);
+
+  const divCardTextTitle = document.createElement("div");
+  divCardTextTitle.className = "card-text";
+  divCardBody.appendChild(divCardTextTitle);
+
+  const divCardTextAuthor = document.createElement("div");
+  divCardTextAuthor.className = "card-text";
+  divCardBody.appendChild(divCardTextAuthor);
+
+  const divCardTextPages = document.createElement("div");
+  divCardTextPages.className = "card-text";
+  divCardBody.appendChild(divCardTextPages);
+
+  divCard.appendChild(divCardBody);
+
+  const divCardFooter = document.createElement("div");
+  divCardFooter.className = "card-footer";
+
+  const statusBtn = document.createElement("button");
+  statusBtn.className = "btn btn-primary";
+  statusBtn.innerHTML = "Read";
+  divCardFooter.appendChild(statusBtn);
+
+  const deleteBtn = document.createElement("button");
+  deleteBtn.className = "btn btn-danger delete";
+  deleteBtn.innerHTML = "Delete";
+  deleteBtn.setAttribute("data-index", index);
+  divCardFooter.appendChild(deleteBtn);
+
+  divCard.appendChild(divCardFooter);
+  booksContainer.appendChild(divCard);
 }
 
 document.getElementById("add").addEventListener("click", e => {
   addBookToLibrary();
+  //document.getElementById("form").reset();
+  //document.getElementById("modal-form").remove();
+  //document.getElementById("modal-remover").classList.remove("modal-open");
+  //document.getElementsByClassName("modal-backdrop").remove();
+  /*const elements = document.getElementsByClassName("modal-backdrop");
+  while (elements.length > 0) elements[0].remove();*/
   e.preventDefault();
 });
 
-document.addEventListener("DOMContentLoaded", render());
-
-function removeBook(book) {
-  let bookToDelete = book.getAttribute("data-index");
-  bookToDelete.style.display = "none";
-  myLibrary.splice(bookToDelete, 1);
-  updateLocalStorage(myLibrary);
-  render();
-}
-
 function updateLocalStorage(array) {
   window.localStorage.setItem("library", JSON.stringify(array));
+}
+
+function removeValue(className) {
+  let i = 0;
+  const elements = document.getElementsByClassName(className);
+  while (i < elements.length) {
+    elements[i].value = "";
+    i++;
+  }
 }
 
 function deleteBook(el) {

@@ -18,7 +18,7 @@
 
     <title>Library</title>
   </head>
-  <body>
+  <body id="modal-remover">
     <header class="container">
       <h1 class="display-4 text-center">My Library</h1>
     </header>
@@ -36,7 +36,7 @@
             type="button"
             class="btn btn-primary"
             data-toggle="modal"
-            data-target="#exampleModalCenter"
+            data-target="#modal-form"
           >
             Add New Book
           </button>
@@ -45,16 +45,16 @@
         <!-- Modal -->
         <div
           class="modal fade"
-          id="exampleModalCenter"
+          id="modal-form"
           tabindex="-1"
           role="dialog"
-          aria-labelledby="exampleModalCenterTitle"
+          aria-labelledby="modal-center-title"
           aria-hidden="true"
         >
           <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
               <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalCenterTitle">
+                <h5 class="modal-title" id="modal-center-title">
                   Book Info
                 </h5>
                 <button
@@ -74,24 +74,28 @@
                       class="form-control form-control-lg my-3 title"
                       type="text"
                       placeholder="Book Title"
+                      required
                     />
                     <input
                       id="author"
                       class="form-control form-control-lg my-3 author"
                       type="text"
                       placeholder="Author"
+                      required
                     />
                     <input
                       id="pages"
                       class="form-control form-control-lg my-3 pages"
                       type="text"
                       placeholder="Number of Pages"
+                      required
                     />
                     <input
                       id="isbn"
                       class="form-control form-control-lg my-3 isbn"
                       type="text"
                       placeholder="ISBN"
+                      required
                     />
                     <input
                       id="image"
