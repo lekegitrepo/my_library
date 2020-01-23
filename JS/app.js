@@ -37,14 +37,18 @@ function render() {
   document.getElementById("book-list").innerHTML = "";
   myLibrary.forEach((book, index) => {
     const booksContainer = document.getElementById("book-list");
+
+    const div = document.createElement("div");
+    div.className = "col-lg-4 col-md-6 mb-4";
     const divCard = document.createElement("div");
-    divCard.className = "card col-12 col-md-3 col-lg-4";
+    divCard.className = "card h-100";
+
+    div.appendChild(divCard);
 
     const cardImg = document.createElement("img");
     cardImg.className = "card-img-top";
     cardImg.src = book.image;
-    cardImg.style.width = "300px";
-    cardImg.style.height = "150px";
+    cardImg.style.height = "155px";
     divCard.appendChild(cardImg);
 
     const divCardBody = document.createElement("div");
@@ -52,27 +56,31 @@ function render() {
 
     const hCardTitle = document.createElement("h5");
     hCardTitle.className = "card-title";
-    hCardTitle.textContent = book.title;
+    hCardTitle.innerHTML = `<b>Title</b>: ${book.title}`;
     divCardBody.appendChild(hCardTitle);
 
     const divCardTextAuthor = document.createElement("div");
     divCardTextAuthor.className = "card-text";
-    divCardTextAuthor.textContent = book.author;
+    divCardTextAuthor.innerHTML = `<b>Author</b>: ${book.author}`;
     divCardBody.appendChild(divCardTextAuthor);
 
     const divCardTextPages = document.createElement("div");
     divCardTextPages.className = "card-text";
-    divCardTextPages.textContent = book.pages;
+    divCardTextPages.innerHTML = `<b>Pages</b>: ${book.pages}`;
     divCardBody.appendChild(divCardTextPages);
 
     const divCardTextIsbn = document.createElement("div");
     divCardTextIsbn.className = "card-text";
-    divCardTextIsbn.textContent = book.isbn;
+    divCardTextIsbn.innerHTML = `<b>ISBN</b>: ${book.isbn}`;
     divCardBody.appendChild(divCardTextIsbn);
 
     const statusBtn = document.createElement("button");
-    statusBtn.className = "btn btn-primary";
-    statusBtn.innerHTML = "Read";
+    statusBtn.className = "btn btn-info btn-block";
+    statusBtn.textContent = "Unread";
+    statusBtn.setAttribute("data-index", index);
+    statusBtn.addEventListener("click", e => {
+      readStatus(e.target);
+    });
     divCardBody.appendChild(statusBtn);
 
     divCard.appendChild(divCardBody);
@@ -90,19 +98,24 @@ function render() {
     divCardFooter.appendChild(deleteBtn);
 
     divCard.appendChild(divCardFooter);
-    booksContainer.appendChild(divCard);
+    booksContainer.appendChild(div);
   });
 }
 
 document.getElementById("add").addEventListener("click", e => {
   addBookToLibrary();
-  console.log("add book button");
   e.preventDefault();
-  console.log(`book in the library array ${myLibrary} ${myLibrary.length}`);
 });
 
 function updateLocalStorage(array) {
   window.localStorage.setItem("library", JSON.stringify(array));
+}
+
+function readStatus(elem) {
+  const book = elem.getAttribute("data-index");
+  const status = elem.textContent;
+  console.log(status);
+  elem.textContent = status == "Unread" ? "Read" : "Unread";
 }
 
 function deleteBook(el) {
