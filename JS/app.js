@@ -3,12 +3,13 @@ if (myLibrary == null) {
   myLibrary = [];
 }
 
-function Book(title, author, pages, isbn, image) {
+function Book(title, author, pages, isbn, readStatus, image) {
   // the constructor...
   this.title = title;
   this.author = author;
   this.pages = pages;
   this.isbn = isbn;
+  this.readStatus = readStatus;
   this.image = image;
 }
 
@@ -113,7 +114,9 @@ function updateLocalStorage(array) {
 
 function readStatus(elem) {
   const status = elem.textContent;
-  elem.textContent = status == "Unread" ? "Read" : "Unread";
+  statusVal = status == "Unread" ? "Read" : "Unread";
+  elem.textContent = statusVal;
+  //book["readStatus"] = statusVal;
 }
 
 function deleteBook(el) {
