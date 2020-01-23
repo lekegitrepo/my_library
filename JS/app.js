@@ -27,7 +27,6 @@ function addBookToLibrary() {
   } else {
     let newBook = new Book(title, author, pages, isbn, img_link);
     myLibrary.push(newBook);
-    //removeValue("form-control");
     updateLocalStorage(myLibrary);
     render();
     document.getElementById("form").reset();
@@ -35,94 +34,82 @@ function addBookToLibrary() {
 }
 
 function render() {
-  myLibrary.forEach((book, index) => displayBook(book, index));
-}
+  document.getElementById("book-list").innerHTML = "";
+  myLibrary.forEach((book, index) => {
+    const booksContainer = document.getElementById("book-list");
+    const divCard = document.createElement("div");
+    divCard.className = "card col-12 col-md-3 col-lg-4";
 
-function displayBook(book, index) {
-  const booksContainer = document.getElementById("book-list");
-  const divCard = document.createElement("div");
-  divCard.className = "card col-12 col-md-3 col-lg-4";
+    const cardImg = document.createElement("img");
+    cardImg.className = "card-img-top";
+    cardImg.src = book.image;
+    cardImg.style.width = "300px";
+    cardImg.style.height = "150px";
+    divCard.appendChild(cardImg);
 
-  const cardImg = document.createElement("img");
-  cardImg.className = "card-img-top";
-  cardImg.src = book.image;
-  cardImg.style.width = "300";
-  cardImg.style.height = "200";
-  divCard.appendChild(cardImg);
+    const divCardBody = document.createElement("div");
+    divCardBody.className = "card-body";
 
-  const divCardBody = document.createElement("div");
-  divCardBody.className = "card-body";
+    const hCardTitle = document.createElement("h5");
+    hCardTitle.className = "card-title";
+    hCardTitle.textContent = book.title;
+    divCardBody.appendChild(hCardTitle);
 
-  const hCardTitle = document.createElement("h5");
-  hCardTitle.className = "card-title";
-  divCardBody.appendChild(hCardTitle);
+    const divCardTextAuthor = document.createElement("div");
+    divCardTextAuthor.className = "card-text";
+    divCardTextAuthor.textContent = book.author;
+    divCardBody.appendChild(divCardTextAuthor);
 
-  const divCardTextTitle = document.createElement("div");
-  divCardTextTitle.className = "card-text";
-  divCardBody.appendChild(divCardTextTitle);
+    const divCardTextPages = document.createElement("div");
+    divCardTextPages.className = "card-text";
+    divCardTextPages.textContent = book.pages;
+    divCardBody.appendChild(divCardTextPages);
 
-  const divCardTextAuthor = document.createElement("div");
-  divCardTextAuthor.className = "card-text";
-  divCardBody.appendChild(divCardTextAuthor);
+    const divCardTextIsbn = document.createElement("div");
+    divCardTextIsbn.className = "card-text";
+    divCardTextIsbn.textContent = book.isbn;
+    divCardBody.appendChild(divCardTextIsbn);
 
-  const divCardTextPages = document.createElement("div");
-  divCardTextPages.className = "card-text";
-  divCardBody.appendChild(divCardTextPages);
+    const statusBtn = document.createElement("button");
+    statusBtn.className = "btn btn-primary";
+    statusBtn.innerHTML = "Read";
+    divCardBody.appendChild(statusBtn);
 
-  divCard.appendChild(divCardBody);
+    divCard.appendChild(divCardBody);
 
-  const divCardFooter = document.createElement("div");
-  divCardFooter.className = "card-footer";
+    const divCardFooter = document.createElement("div");
+    divCardFooter.className = "card-footer";
 
-  const statusBtn = document.createElement("button");
-  statusBtn.className = "btn btn-primary";
-  statusBtn.innerHTML = "Read";
-  divCardFooter.appendChild(statusBtn);
+    const deleteBtn = document.createElement("button");
+    deleteBtn.className = "btn btn-danger delete";
+    deleteBtn.innerHTML = "Delete";
+    deleteBtn.setAttribute("data-index", index);
+    deleteBtn.addEventListener("click", e => {
+      deleteBook(e.target);
+    });
+    divCardFooter.appendChild(deleteBtn);
 
-  const deleteBtn = document.createElement("button");
-  deleteBtn.className = "btn btn-danger delete";
-  deleteBtn.innerHTML = "Delete";
-  deleteBtn.setAttribute("data-index", index);
-  divCardFooter.appendChild(deleteBtn);
-
-  divCard.appendChild(divCardFooter);
-  booksContainer.appendChild(divCard);
+    divCard.appendChild(divCardFooter);
+    booksContainer.appendChild(divCard);
+  });
 }
 
 document.getElementById("add").addEventListener("click", e => {
   addBookToLibrary();
-  //document.getElementById("form").reset();
-  //document.getElementById("modal-form").remove();
-  //document.getElementById("modal-remover").classList.remove("modal-open");
-  //document.getElementsByClassName("modal-backdrop").remove();
-  /*const elements = document.getElementsByClassName("modal-backdrop");
-  while (elements.length > 0) elements[0].remove();*/
+  console.log("add book button");
   e.preventDefault();
+  console.log(`book in the library array ${myLibrary} ${myLibrary.length}`);
 });
 
 function updateLocalStorage(array) {
   window.localStorage.setItem("library", JSON.stringify(array));
 }
 
-function removeValue(className) {
-  let i = 0;
-  const elements = document.getElementsByClassName(className);
-  while (i < elements.length) {
-    elements[i].value = "";
-    i++;
-  }
-}
-
 function deleteBook(el) {
-  if (el.classList.contains("delete")) {
-    el.parentElement.parentElement.parentElement.parentElement.remove();
-    const book = el.getAttribute("data-index");
-    myLibrary.splice(book, 1);
-    updateLocalStorage(myLibrary);
-    render();
-  }
+  const book = el.getAttribute("data-index");
+  myLibrary.splice(book, 1);
+  el.parentElement.parentElement.remove();
+  updateLocalStorage(myLibrary);
+  render();
+  e.preventDefault();
 }
-
-document.querySelector("#book-list").addEventListener("click", e => {
-  deleteBook(e.target);
-});
