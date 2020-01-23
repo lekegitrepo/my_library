@@ -112,9 +112,7 @@ function updateLocalStorage(array) {
 }
 
 function readStatus(elem) {
-  const book = elem.getAttribute("data-index");
   const status = elem.textContent;
-  console.log(status);
   elem.textContent = status == "Unread" ? "Read" : "Unread";
 }
 
