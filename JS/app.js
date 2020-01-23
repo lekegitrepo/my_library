@@ -87,7 +87,7 @@ function render() {
     divCard.appendChild(divCardBody);
 
     const divCardFooter = document.createElement("div");
-    divCardFooter.className = "card-footer";
+    divCardFooter.className = "card-footer text-center";
 
     const deleteBtn = document.createElement("button");
     deleteBtn.className = "btn btn-danger delete";
